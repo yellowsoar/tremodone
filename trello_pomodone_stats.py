@@ -109,10 +109,17 @@ def wfile_output(task_id, task, time, count, labels):
     write_output.write('"' + str(task_id) + '",')
     write_output.write('"' + str(task) + '",')
     write_output.write('"' + str(time) + '",')
-    write_output.write('"' + str(decimal.Decimal(time / 60).quantize(decimal.Decimal('0.01'))) + '",')
-    write_output.write('"' + str(decimal.Decimal(time / 60 / count_date).quantize(decimal.Decimal('0.01'))) + '",')
-    write_output.write('"' + str(decimal.Decimal(time / 60 / 60).quantize(decimal.Decimal('0.01'))) + '",')
-    write_output.write('"' + str(decimal.Decimal(time / 60 / 60 / 24).quantize(decimal.Decimal('0.01'))) + '",')
+    write_output.write('"' + str(
+        decimal.Decimal(time / 60).quantize(decimal.Decimal('0.01'))) + '",')
+    write_output.write('"' + str(
+        decimal.Decimal(time / 60 / count_date).quantize(
+            decimal.Decimal('0.01'))) + '",')
+    write_output.write('"' + str(
+        decimal.Decimal(time / 60 / 60).quantize(
+            decimal.Decimal('0.01'))) + '",')
+    write_output.write('"' + str(
+        decimal.Decimal(time / 60 / 60 / 24).quantize(
+            decimal.Decimal('0.01'))) + '",')
     write_output.write('"' + str(count) + '",')
     write_output.write('"' + str(labels) + '"\n')
 
