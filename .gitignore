@@ -1,0 +1,22 @@
+# ignore all file
+*
+
+# --------------------
+# white list
+# --------------------
+
+# directories
+!*/
+
+# files
+!.gitignore
+!trello_pomodone_stats.py
+
+# --------------------
+# black list
+# --------------------
+
+# ignore _log files
+
+
+# block specific file
