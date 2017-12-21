@@ -67,7 +67,7 @@ for temp in csv_pomodone_log:
 
 path_trello_archived = 'Archived trello.csv'
 rfile_trello_archived = codecs.open(
-    path_trello_archived, 'rb', encoding="utf-8")
+    path_trello_archived, 'rb', encoding="big5")
 csv_trello_archived = csv.DictReader(rfile_trello_archived, delimiter=',')
 
 for temp in csv_trello_archived:
@@ -85,7 +85,7 @@ for temp in csv_trello_archived:
         pass
 
 path_trello = 'trello.csv'
-rfile_trello = codecs.open(path_trello, 'rb', encoding="utf-8")
+rfile_trello = codecs.open(path_trello, 'rb', encoding="big5")
 csv_trello = csv.DictReader(rfile_trello, delimiter=',')
 
 for temp in csv_trello:
@@ -102,27 +102,40 @@ for temp in csv_trello:
 
 path_output = 'output.csv'
 write_output = codecs.open(path_output, 'w', encoding='utf-8')
-write_output.write('id,工項,工時(秒),工時(分),日均(分),工時(時),工時(天),執行次數,標籤\n')
+write_output.write('id,工項,總工時(秒),總工時(分),總工時(時),總工時(日),\
+    佔用工作日,總工作日佔比,執行次數,日均執行,標籤\n')
 
 
 def wfile_output(task_id, task, time, count, labels):
-    write_output.write('"' + str(task_id) + '",')
-    write_output.write('"' + str(task) + '",')
-    write_output.write('"' + str(time) + '",')
-    write_output.write('"' + str(
-        decimal.Decimal(time / 60).quantize(decimal.Decimal('0.01'))) + '",')
-    write_output.write('"' + str(
-        decimal.Decimal(time / 60 / count_date).quantize(
-            decimal.Decimal('0.01'))) + '",')
+    write_output.write('"' + str(task_id) + '",')  # id
+    write_output.write('"' + str(task) + '",')  # 工項
+    write_output.write('"' + str(time) + '",')  # 總工時(秒)
+    write_output.write('"' + str(decimal.Decimal(
+        time / 60).quantize(decimal.Decimal('0.01'))) + '",')  # 總工時(分)
     write_output.write('"' + str(
         decimal.Decimal(time / 60 / 60).quantize(
-            decimal.Decimal('0.01'))) + '",')
+            decimal.Decimal('0.01'))) + '",')  # 總工時(時)
     write_output.write('"' + str(
         decimal.Decimal(time / 60 / 60 / 24).quantize(
-            decimal.Decimal('0.01'))) + '",')
-    write_output.write('"' + str(count) + '",')
-    write_output.write('"' + str(labels) + '"\n')
+            decimal.Decimal('0.01'))) + '",')  # 總工時(日)
+    write_output.write('"' + str(decimal.Decimal(
+        time / 60 / time_avg_mins).quantize(
+            decimal.Decimal('0.01'))) + '",')  # 佔用工作日
+    write_output.write('"' + str(decimal.Decimal(
+        time / 60 / time_avg_mins / count_date).quantize(
+            decimal.Decimal('0.0001'))) + '",')  # 總工作日佔比
+    write_output.write('"' + str(count) + '",')  # 執行次數
+    write_output.write('"' + str(
+        decimal.Decimal(count / count_date).quantize(
+            decimal.Decimal('0.01'))) + '",')  # 日均執行
+    write_output.write('"' + str(labels) + '"\n')  # 標籤
 
+
+time_total_secs = 0
+for temp in dict_task:
+    time_total_secs += dict_time[temp]
+time_avg_mins = time_total_secs / 60 / count_date
+time_avg_hours = time_total_secs / 60 / 60 / count_date
 
 for temp in dict_task:
     wfile_output(
@@ -131,5 +144,3 @@ for temp in dict_task:
         dict_time[temp],
         dict_count[temp],
         dict_label[temp])
-
-print(count_date)
