@@ -95,9 +95,7 @@ for temp in csv_trello_archived:
 for temp in csv_trello:
     task_id = temp['Card URL'][temp['Card URL'].find('c/') + 2:]
     try:
-        print(dict_task)
         test = dict_task[task_id]
-        print('yes')
         task_title = temp['Title']
         task_label = temp['Labels']
         # 項目
