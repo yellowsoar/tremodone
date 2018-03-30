@@ -5,19 +5,19 @@ import codecs
 import decimal
 
 path_pomodone_log = 'pomodone-log.csv'
-rfile_pomodone_log = codecs.open(path_pomodone_log, 'rb', encoding="utf-8")
-csv_pomodone_log = csv.DictReader(rfile_pomodone_log, delimiter=',')
-
 path_trello_archived = 'Archived trello.csv'
+path_trello = 'trello.csv'
+path_output = 'output.csv'
+
+rfile_pomodone_log = codecs.open(path_pomodone_log, 'rb', encoding="utf-8")
 rfile_trello_archived = codecs.open(
     path_trello_archived, 'rb', encoding="big5")
-csv_trello_archived = csv.DictReader(rfile_trello_archived, delimiter=',')
-
-path_trello = 'trello.csv'
 rfile_trello = codecs.open(path_trello, 'rb', encoding="big5")
+
+csv_pomodone_log = csv.DictReader(rfile_pomodone_log, delimiter=',')
+csv_trello_archived = csv.DictReader(rfile_trello_archived, delimiter=',')
 csv_trello = csv.DictReader(rfile_trello, delimiter=',')
 
-path_output = 'output.csv'
 write_output = codecs.open(path_output, 'w', encoding='utf-8')
 
 dict_task = {}
