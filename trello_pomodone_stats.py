@@ -33,7 +33,7 @@ count_date = 0
 
 # read pomodone logs as dictionary
 for temp in csv_pomodone_log:
-    task_id = temp['permalink'][temp['permalink'].find('c/') + 2:]
+    task_id = temp['description'][temp['description'].find('c/') + 2:]
     if task_date_temp == str(temp['date']):
         pass
     else:
