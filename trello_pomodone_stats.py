@@ -8,6 +8,18 @@ path_pomodone_log = 'pomodone-log.csv'
 rfile_pomodone_log = codecs.open(path_pomodone_log, 'rb', encoding="utf-8")
 csv_pomodone_log = csv.DictReader(rfile_pomodone_log, delimiter=',')
 
+path_trello_archived = 'Archived trello.csv'
+rfile_trello_archived = codecs.open(
+    path_trello_archived, 'rb', encoding="big5")
+csv_trello_archived = csv.DictReader(rfile_trello_archived, delimiter=',')
+
+path_trello = 'trello.csv'
+rfile_trello = codecs.open(path_trello, 'rb', encoding="big5")
+csv_trello = csv.DictReader(rfile_trello, delimiter=',')
+
+path_output = 'output.csv'
+write_output = codecs.open(path_output, 'w', encoding='utf-8')
+
 dict_task = {}
 dict_time = {}
 dict_count = {}
@@ -19,6 +31,7 @@ task_date = ""
 task_date_temp = ""
 count_date = 0
 
+# read pomodone logs as dictionary
 for temp in csv_pomodone_log:
     task_id = temp['permalink'][temp['permalink'].find('c/') + 2:]
     if task_date_temp == str(temp['date']):
@@ -32,7 +45,7 @@ for temp in csv_pomodone_log:
         int(temp['time spent'][:2]) * 60 * 60 +
         int(temp['time spent'][3:5]) * 60 +
         int(temp['time spent'][7:]))
-    # 項目
+    # task id dictionary
     try:
         test = dict_task[task_id]
     except KeyError:
@@ -65,11 +78,6 @@ for temp in csv_pomodone_log:
     except ValueError:
         list_test.append(task_id)
 
-path_trello_archived = 'Archived trello.csv'
-rfile_trello_archived = codecs.open(
-    path_trello_archived, 'rb', encoding="big5")
-csv_trello_archived = csv.DictReader(rfile_trello_archived, delimiter=',')
-
 for temp in csv_trello_archived:
     task_id = temp['Card URL'][temp['Card URL'].find('c/') + 2:]
     if len(task_id) == 0:
@@ -84,14 +92,12 @@ for temp in csv_trello_archived:
     except KeyError:
         pass
 
-path_trello = 'trello.csv'
-rfile_trello = codecs.open(path_trello, 'rb', encoding="big5")
-csv_trello = csv.DictReader(rfile_trello, delimiter=',')
-
 for temp in csv_trello:
     task_id = temp['Card URL'][temp['Card URL'].find('c/') + 2:]
     try:
+        print(dict_task)
         test = dict_task[task_id]
+        print('yes')
         task_title = temp['Title']
         task_label = temp['Labels']
         # 項目
@@ -100,8 +106,6 @@ for temp in csv_trello:
     except KeyError:
         pass
 
-path_output = 'output.csv'
-write_output = codecs.open(path_output, 'w', encoding='utf-8')
 write_output.write('id,工項,總工時(秒),總工時(分),總工時(時),總工時(日),\
     佔用工作日,總工作日佔比,執行次數,日均執行,標籤\n')
 
