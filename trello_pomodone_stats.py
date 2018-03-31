@@ -20,10 +20,10 @@ csv_trello = csv.DictReader(rfile_trello, delimiter=',')
 
 write_output = codecs.open(path_output, 'w', encoding='utf-8')
 
-dict_task = {}
-dict_time = {}
-dict_count = {}
-dict_label = {}
+dict_task = {}  # name
+dict_time = {}  # time spent
+dict_count = {}  # excution times
+dict_label = {}  # labels
 
 list_test = []
 
